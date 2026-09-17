@@ -801,6 +801,12 @@ main{padding-block:26px;min-width:0}
   var HEB={}, HEBM={};
   for(var _i=1;_i<=60;_i++){ HEB[_i]=gematria(_i); HEBM[_i]=gematria(_i); }
   var CONF={'ודאי':1,'גבוהה':2,'בינונית':3,'לבדיקה':4,'נבדק ידנית':5};
+  function goTo(el){
+    if(!el) return;
+    var y=el.getBoundingClientRect().top+window.scrollY-56;
+    var far=Math.abs(y-window.scrollY)>4000;
+    window.scrollTo(far?{top:y}:{top:y,behavior:'smooth'});
+  }
 
   var MAS={}, MLIST=D.masechtot;
   MLIST.forEach(function(m){ MAS[m.k]=m; m.text={}; m.mishnayot.forEach(function(x){ m.text[x.c+':'+x.m]=x.t; }); });
@@ -1299,14 +1305,14 @@ main{padding-block:26px;min-width:0}
       if(Mx){ for(var mi=1;mi<=(Mx.counts[cn]||Mx.counts[String(cn)]||0);mi++){
         tg=document.getElementById('m-'+cn+'-'+mi); if(tg)break; } }
       if(!tg) tg=document.getElementById('m-'+cn+'-x');
-      if(tg) tg.scrollIntoView({behavior:'smooth',block:'start'});
+      if(tg) goTo(tg);
       return;
     }
     var b=e.target.closest?e.target.closest('[data-go]'):null;
     if(!b)return;
     var id2='m-'+b.getAttribute('data-go').replace(':','-').replace('?','x');
     var el2=document.getElementById(id2);
-    if(el2) el2.scrollIntoView({behavior:'smooth',block:'start'});
+    if(el2) goTo(el2);
   });
 
   // deep link on load: #n-pXXXX may belong to the other masechta
@@ -1336,9 +1342,9 @@ main{padding-block:26px;min-width:0}
     });
     document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&!drop.hidden) setOpen(false); });
     var t=document.getElementById('navTop'), en=document.getElementById('navEnd');
-    if(t) t.addEventListener('click',function(){ setOpen(false); window.scrollTo({top:0,behavior:'smooth'}); });
+    if(t) t.addEventListener('click',function(){ setOpen(false); window.scrollTo(0,0); });
     if(en) en.addEventListener('click',function(){ setOpen(false);
-      window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'}); });
+      window.scrollTo(0,document.body.scrollHeight); });
   })();
 
 
