@@ -732,7 +732,7 @@ main{padding-block:26px;min-width:0}
   <header class="masthead">
     <div class="masthead-inner">
       <div class="brand">
-        <div class="eyebrow">פורום הלימוד · עודכן י״א בתשרי תשפ״ז · 22 בספטמבר 2026 · גרסה 37</div>
+        <div class="eyebrow">פורום הלימוד · עודכן י״א בתשרי תשפ״ז · 22 בספטמבר 2026 · גרסה 38</div>
         <h1>המשנה המוערת</h1>
         <div class="sub">כל ההערות שנכתבו בפורום, מסודרות לפי סדר המשניות במקום לפי סדר הכתיבה.</div>
         <div class="print-head print-only" id="printHead"></div>
@@ -1426,11 +1426,14 @@ main{padding-block:26px;min-width:0}
     if(k!=='*'&&!MAS[k]) return false;
     if(k!==CUR){ CUR=k; q.value='';selW.value='';selY.value='';hideReview.checked=false; buildMasechta(); }
     render();
-    if(m[2]){ var el=document.getElementById('m-'+m[2]+'-'+m[3]); if(el&&scroll!==false) goTo(el); }
+    if(m[2]){ var id='m-'+m[2]+'-'+m[3];
+      var jump=function(){ var el=document.getElementById(id); if(!el)return;
+        window.scrollTo(0, el.getBoundingClientRect().top+window.scrollY-56); };
+      if(scroll!==false){ jump(); setTimeout(jump,120); setTimeout(jump,450); } }
     return true;
   }
   (function(){
-    if(/^#\//.test(location.hash)) gotoRoute(location.hash,true);
+    if(/^#\//.test(location.hash)) { if('scrollRestoration' in history) history.scrollRestoration='manual'; gotoRoute(location.hash,true); }
     else setHash(currentRoute());
     window.addEventListener('hashchange',function(){ if(ROUTING)return; gotoRoute(location.hash,true); });
   })();
